@@ -1,0 +1,39 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "org.fmi.unibuc"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "monolith",
+    "baseName": "GroupExpenseTracker",
+    "packageName": "org.fmi.unibuc",
+    "packageFolder": "org/fmi/unibuc",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mssql",
+    "prodDatabaseType": "mssql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MDk3ODBhZGE4MTQ4ZGNmZGY0MGVkZjQxYjQ4YjUyYTViOTkxN2JiYzQ0MzFiZjNkOGY5YjE2ZDU0ZTE2NmU4MThhYjI0MDU2M2M2ZjgzY2M0MWJmMjFlNmQ1ZjY4NmQwZWFhNzRkNTYwNmQzNGUyNDM5NTViNTQ2YjI1MDFlYmU=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "lux",
+    "clientThemeVariant": "dark",
+    "creationTimestamp": 1609673890062,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}
