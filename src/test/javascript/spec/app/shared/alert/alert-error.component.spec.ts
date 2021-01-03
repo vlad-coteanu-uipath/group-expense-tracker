@@ -64,7 +64,7 @@ describe('Component Tests', () => {
       it('Should display an alert on status 400 for generic error', () => {
         // GIVEN
         const response = new HttpErrorResponse({
-          url: 'http://localhost:8080/api/foos',
+          url: 'http://localhost:8081/api/foos',
           headers: new HttpHeaders(),
           status: 400,
           statusText: 'Bad Request',
@@ -85,7 +85,7 @@ describe('Component Tests', () => {
       it('Should display an alert on status 400 for generic error without message', () => {
         // GIVEN
         const response = new HttpErrorResponse({
-          url: 'http://localhost:8080/api/foos',
+          url: 'http://localhost:8081/api/foos',
           headers: new HttpHeaders(),
           status: 400,
           error: 'Bad Request',
@@ -99,7 +99,7 @@ describe('Component Tests', () => {
       it('Should display an alert on status 400 for invalid parameters', () => {
         // GIVEN
         const response = new HttpErrorResponse({
-          url: 'http://localhost:8080/api/foos',
+          url: 'http://localhost:8081/api/foos',
           headers: new HttpHeaders(),
           status: 400,
           statusText: 'Bad Request',
@@ -121,7 +121,7 @@ describe('Component Tests', () => {
       it('Should display an alert on status 400 for error headers', () => {
         // GIVEN
         const response = new HttpErrorResponse({
-          url: 'http://localhost:8080/api/foos',
+          url: 'http://localhost:8081/api/foos',
           headers: new HttpHeaders().append('app-error', 'Error Message').append('app-params', 'foo'),
           status: 400,
           statusText: 'Bad Request',

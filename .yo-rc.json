@@ -8,7 +8,7 @@
     "baseName": "GroupExpenseTracker",
     "packageName": "org.fmi.unibuc",
     "packageFolder": "org/fmi/unibuc",
-    "serverPort": "8080",
+    "serverPort": "8081",
     "authenticationType": "jwt",
     "cacheProvider": "no",
     "websocket": false,
@@ -34,6 +34,9 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": false,
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "group-expense-tracker",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "11"
   }
 }

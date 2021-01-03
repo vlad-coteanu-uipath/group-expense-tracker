@@ -37,9 +37,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:sqlserver://localhost:1433;database=GroupExpenseTracker
-    username: SA
-    password: yourStrong(!)Password
+    url: jdbc:sqlserver://group-expense-tracker-dev.database.windows.net:1433;database=group-expense-tracker
+    username: main
+    password: qweQWE123!@#
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -52,7 +52,7 @@ spring:
     show-sql: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+    contexts: dev
   mail:
     host: localhost
     port: 25
@@ -64,7 +64,7 @@ spring:
     cache: false
 
 server:
-  port: 8080
+  port: 8081
 
 # ===================================================================
 # JHipster specific properties
