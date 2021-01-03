@@ -1,0 +1,53 @@
+{
+  "name": "AppUser",
+  "fields": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "user",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "expense",
+      "otherEntityRelationshipName": "createdBy",
+      "relationshipName": "createdExpenses"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "trip",
+      "otherEntityRelationshipName": "createdBy",
+      "relationshipName": "createdTrips"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "trip",
+      "otherEntityRelationshipName": "participants",
+      "relationshipName": "trips",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "expense",
+      "otherEntityRelationshipName": "participants",
+      "relationshipName": "expenses",
+      "otherEntityField": "id",
+      "ownerSide": true
+    }
+  ],
+  "changelogDate": "20210103185152",
+  "entityTableName": "app_user",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

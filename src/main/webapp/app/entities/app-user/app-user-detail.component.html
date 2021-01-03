@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="appUser">
+            <h2><span>App User</span> {{ appUser.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>User</span></dt>
+                <dd>
+                    {{ appUser.userId }}
+                </dd>
+                <dt><span>Trips</span></dt>
+                <dd>
+                    <span *ngFor="let trips of appUser.trips; let last = last">
+                        <a [routerLink]="['/trip', trips?.id, 'view']">{{ trips.id }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
+                <dt><span>Expenses</span></dt>
+                <dd>
+                    <span *ngFor="let expenses of appUser.expenses; let last = last">
+                        <a [routerLink]="['/expense', expenses?.id, 'view']">{{ expenses.id }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/app-user', appUser.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

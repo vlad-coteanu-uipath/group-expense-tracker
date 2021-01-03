@@ -1,0 +1,40 @@
+
+entity Trip {
+	name String,
+    description String,
+    createdDate LocalDate
+}
+
+entity Expense {
+	description String,
+    amount String,
+    type ExpenseType
+}
+
+enum ExpenseType {
+    INDIVIDUAL, GROUP
+}
+
+entity AppUser {
+
+}
+
+relationship OneToOne {
+    AppUser {user} to User {appUser}
+}
+
+relationship ManyToMany {
+	AppUser {trips} to Trip {participants}
+    AppUser {expenses} to Expense {participants}
+}
+
+relationship OneToMany {
+	Trip {expenses} to Expense {trip}
+	AppUser {createdExpenses} to Expense {createdBy}
+    AppUser {createdTrips} to Trip {createdBy}
+}
+
+paginate Trip, Expense with pagination
+dto * with mapstruct
+service all with serviceImpl
+filter Trip, Expense

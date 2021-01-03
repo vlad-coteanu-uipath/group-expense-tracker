@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="expense">
+            <h2><span>Expense</span> {{ expense.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{ expense.description }}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{ expense.amount }}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{ expense.type }}</span>
+                </dd>
+                <dt><span>Trip</span></dt>
+                <dd>
+                    <div *ngIf="expense.tripId">
+                        <a [routerLink]="['/trip', expense.tripId, 'view']">{{ expense.tripId }}</a>
+                    </div>
+                </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <div *ngIf="expense.createdById">
+                        <a [routerLink]="['/app-user', expense.createdById, 'view']">{{ expense.createdById }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/expense', expense.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
