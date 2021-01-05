@@ -7,7 +7,7 @@
     },
     {
       "fieldName": "amount",
-      "fieldType": "String"
+      "fieldType": "BigDecimal"
     },
     {
       "fieldName": "type",

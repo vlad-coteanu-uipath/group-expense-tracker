@@ -11,6 +11,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 
 /**
  * Criteria class for the {@link org.fmi.unibuc.domain.Expense} entity. This class is used
@@ -47,7 +48,7 @@ public class ExpenseCriteria implements Serializable, Criteria {
 
     private StringFilter description;
 
-    private StringFilter amount;
+    private BigDecimalFilter amount;
 
     private ExpenseTypeFilter type;
 
@@ -91,11 +92,11 @@ public class ExpenseCriteria implements Serializable, Criteria {
         this.description = description;
     }
 
-    public StringFilter getAmount() {
+    public BigDecimalFilter getAmount() {
         return amount;
     }
 
-    public void setAmount(StringFilter amount) {
+    public void setAmount(BigDecimalFilter amount) {
         this.amount = amount;
     }
 

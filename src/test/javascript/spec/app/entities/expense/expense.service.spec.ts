@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(ExpenseService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Expense(0, 'AAAAAAA', 'AAAAAAA', ExpenseType.INDIVIDUAL);
+      elemDefault = new Expense(0, 'AAAAAAA', 0, ExpenseType.INDIVIDUAL);
     });
 
     describe('Service methods', () => {
@@ -56,7 +56,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             description: 'BBBBBB',
-            amount: 'BBBBBB',
+            amount: 1,
             type: 'BBBBBB',
           },
           elemDefault
@@ -75,7 +75,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             description: 'BBBBBB',
-            amount: 'BBBBBB',
+            amount: 1,
             type: 'BBBBBB',
           },
           elemDefault

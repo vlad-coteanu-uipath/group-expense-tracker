@@ -1,6 +1,7 @@
 package org.fmi.unibuc.service.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import org.fmi.unibuc.domain.enumeration.ExpenseType;
 
 /**
@@ -12,7 +13,7 @@ public class ExpenseDTO implements Serializable {
 
     private String description;
 
-    private String amount;
+    private BigDecimal amount;
 
     private ExpenseType type;
 
@@ -37,11 +38,11 @@ public class ExpenseDTO implements Serializable {
         this.description = description;
     }
 
-    public String getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -92,7 +93,7 @@ public class ExpenseDTO implements Serializable {
         return "ExpenseDTO{" +
             "id=" + getId() +
             ", description='" + getDescription() + "'" +
-            ", amount='" + getAmount() + "'" +
+            ", amount=" + getAmount() +
             ", type='" + getType() + "'" +
             ", tripId=" + getTripId() +
             ", createdById=" + getCreatedById() +

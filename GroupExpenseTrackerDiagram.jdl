@@ -7,7 +7,7 @@ entity Trip {
 
 entity Expense {
 	description String,
-    amount String,
+    amount BigDecimal,
     type ExpenseType
 }
 

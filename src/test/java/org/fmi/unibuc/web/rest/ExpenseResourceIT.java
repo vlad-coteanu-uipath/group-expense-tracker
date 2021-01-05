@@ -21,6 +21,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,8 +41,9 @@ public class ExpenseResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final String DEFAULT_AMOUNT = "AAAAAAAAAA";
-    private static final String UPDATED_AMOUNT = "BBBBBBBBBB";
+    private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_AMOUNT = new BigDecimal(1 - 1);
 
     private static final ExpenseType DEFAULT_TYPE = ExpenseType.INDIVIDUAL;
     private static final ExpenseType UPDATED_TYPE = ExpenseType.GROUP;
@@ -151,7 +153,7 @@ public class ExpenseResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(expense.getId().intValue())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
     }
     
@@ -167,7 +169,7 @@ public class ExpenseResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(expense.getId().intValue()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
+            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()));
     }
 
@@ -320,30 +322,57 @@ public class ExpenseResourceIT {
         // Get all the expenseList where amount is null
         defaultExpenseShouldNotBeFound("amount.specified=false");
     }
-                @Test
+
+    @Test
     @Transactional
-    public void getAllExpensesByAmountContainsSomething() throws Exception {
+    public void getAllExpensesByAmountIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         expenseRepository.saveAndFlush(expense);
 
-        // Get all the expenseList where amount contains DEFAULT_AMOUNT
-        defaultExpenseShouldBeFound("amount.contains=" + DEFAULT_AMOUNT);
+        // Get all the expenseList where amount is greater than or equal to DEFAULT_AMOUNT
+        defaultExpenseShouldBeFound("amount.greaterThanOrEqual=" + DEFAULT_AMOUNT);
 
-        // Get all the expenseList where amount contains UPDATED_AMOUNT
-        defaultExpenseShouldNotBeFound("amount.contains=" + UPDATED_AMOUNT);
+        // Get all the expenseList where amount is greater than or equal to UPDATED_AMOUNT
+        defaultExpenseShouldNotBeFound("amount.greaterThanOrEqual=" + UPDATED_AMOUNT);
     }
 
     @Test
     @Transactional
-    public void getAllExpensesByAmountNotContainsSomething() throws Exception {
+    public void getAllExpensesByAmountIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         expenseRepository.saveAndFlush(expense);
 
-        // Get all the expenseList where amount does not contain DEFAULT_AMOUNT
-        defaultExpenseShouldNotBeFound("amount.doesNotContain=" + DEFAULT_AMOUNT);
+        // Get all the expenseList where amount is less than or equal to DEFAULT_AMOUNT
+        defaultExpenseShouldBeFound("amount.lessThanOrEqual=" + DEFAULT_AMOUNT);
 
-        // Get all the expenseList where amount does not contain UPDATED_AMOUNT
-        defaultExpenseShouldBeFound("amount.doesNotContain=" + UPDATED_AMOUNT);
+        // Get all the expenseList where amount is less than or equal to SMALLER_AMOUNT
+        defaultExpenseShouldNotBeFound("amount.lessThanOrEqual=" + SMALLER_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExpensesByAmountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        expenseRepository.saveAndFlush(expense);
+
+        // Get all the expenseList where amount is less than DEFAULT_AMOUNT
+        defaultExpenseShouldNotBeFound("amount.lessThan=" + DEFAULT_AMOUNT);
+
+        // Get all the expenseList where amount is less than UPDATED_AMOUNT
+        defaultExpenseShouldBeFound("amount.lessThan=" + UPDATED_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllExpensesByAmountIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        expenseRepository.saveAndFlush(expense);
+
+        // Get all the expenseList where amount is greater than DEFAULT_AMOUNT
+        defaultExpenseShouldNotBeFound("amount.greaterThan=" + DEFAULT_AMOUNT);
+
+        // Get all the expenseList where amount is greater than SMALLER_AMOUNT
+        defaultExpenseShouldBeFound("amount.greaterThan=" + SMALLER_AMOUNT);
     }
 
 
@@ -467,7 +496,7 @@ public class ExpenseResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(expense.getId().intValue())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
 
         // Check, that the count call also returns 1

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,8 +29,8 @@ public class Expense implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "amount")
-    private String amount;
+    @Column(name = "amount", precision = 21, scale = 2)
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -69,16 +70,16 @@ public class Expense implements Serializable {
         this.description = description;
     }
 
-    public String getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public Expense amount(String amount) {
+    public Expense amount(BigDecimal amount) {
         this.amount = amount;
         return this;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -169,7 +170,7 @@ public class Expense implements Serializable {
         return "Expense{" +
             "id=" + getId() +
             ", description='" + getDescription() + "'" +
-            ", amount='" + getAmount() + "'" +
+            ", amount=" + getAmount() +
             ", type='" + getType() + "'" +
             "}";
     }

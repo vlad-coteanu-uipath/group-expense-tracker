@@ -95,7 +95,7 @@ public class ExpenseQueryService extends QueryService<Expense> {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), Expense_.description));
             }
             if (criteria.getAmount() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAmount(), Expense_.amount));
+                specification = specification.and(buildRangeSpecification(criteria.getAmount(), Expense_.amount));
             }
             if (criteria.getType() != null) {
                 specification = specification.and(buildSpecification(criteria.getType(), Expense_.type));
