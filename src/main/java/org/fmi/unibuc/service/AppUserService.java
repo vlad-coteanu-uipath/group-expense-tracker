@@ -50,4 +50,12 @@ public interface AppUserService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Get the appUser by the user id.
+     *
+     * @param id the id of the associated user entity.
+     * @return the entity.
+     */
+    Optional<AppUserDTO> findOneByUser(Long id);
 }

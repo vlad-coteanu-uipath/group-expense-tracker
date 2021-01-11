@@ -103,6 +103,19 @@ public class AppUserResource {
     }
 
     /**
+     * {@code GET  /app-users/user/{:id} : get the  appUser by associated userId.
+     *
+     * @param id the id of the user associated to the appUserDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the appUserDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/app-users/user/{id}")
+    public ResponseEntity<AppUserDTO> getAppUserByUser(@PathVariable Long id) {
+        log.debug("REST request to get AppUser by user: {}", id);
+        Optional<AppUserDTO> appUserDTO = appUserService.findOneByUser(id);
+        return ResponseUtil.wrapOrNotFound(appUserDTO);
+    }
+
+    /**
      * {@code DELETE  /app-users/:id} : delete the "id" appUser.
      *
      * @param id the id of the appUserDTO to delete.
