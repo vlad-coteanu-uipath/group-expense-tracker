@@ -2,6 +2,8 @@ package org.fmi.unibuc.service;
 
 import org.fmi.unibuc.service.dto.AppUserDTO;
 
+import org.fmi.unibuc.service.dto.ExtendedUserDTO;
+import org.fmi.unibuc.service.dto.TripDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -58,4 +60,8 @@ public interface AppUserService {
      * @return the entity.
      */
     Optional<AppUserDTO> findOneByUser(Long id);
+
+    List<ExtendedUserDTO> getAllCandidates(Long appUserId);
+
+    List<TripDTO> findTripsForUser(Long appUserId);
 }

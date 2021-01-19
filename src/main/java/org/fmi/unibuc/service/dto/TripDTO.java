@@ -7,7 +7,7 @@ import java.io.Serializable;
  * A DTO for the {@link org.fmi.unibuc.domain.Trip} entity.
  */
 public class TripDTO implements Serializable {
-    
+
     private Long id;
 
     private String name;
@@ -15,10 +15,9 @@ public class TripDTO implements Serializable {
     private String description;
 
     private LocalDate createdDate;
-
-
-    private Long createdById;
     
+    private Long createdById;
+
     public Long getId() {
         return id;
     }

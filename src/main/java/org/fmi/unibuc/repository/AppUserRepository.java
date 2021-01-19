@@ -29,4 +29,5 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     @Query("select appUser from AppUser appUser join appUser.user u where u.id = :id")
     Optional<AppUser> findOneByUserId(@Param("id") Long id);
+
 }
