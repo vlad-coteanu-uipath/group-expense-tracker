@@ -89,16 +89,17 @@ public class TripServiceImpl implements TripService {
         trip.setCreatedDate(LocalDate.now());
         trip.setDescription(createTripDTO.getDescription());
         trip.setName(createTripDTO.getTitle());
+        trip = tripRepository.save(trip);
 
         Set<AppUser> candidates = new HashSet<>();
         for(int i = 0; i < createTripDTO.getParticipantsAppUserId().length; i++) {
             Optional<AppUser> candidateOpt = appUserRepository.findById(createTripDTO.getParticipantsAppUserId()[i]);
             if(candidateOpt.isPresent()) {
-                candidates.add(appUserOpt.get());
+                AppUser candidate = candidateOpt.get();
+                candidate.getTrips().add(trip);
+                appUserRepository.save(candidate);
             }
         }
-        trip.setParticipants(candidates);
-        trip = tripRepository.save(trip);
         return trip.getId();
     }
 }
