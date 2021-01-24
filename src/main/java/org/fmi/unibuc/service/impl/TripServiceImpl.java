@@ -8,6 +8,7 @@ import org.fmi.unibuc.repository.TripRepository;
 import org.fmi.unibuc.service.dto.CreateTripDTO;
 import org.fmi.unibuc.service.dto.TripDTO;
 import org.fmi.unibuc.service.mapper.TripMapper;
+import org.fmi.unibuc.service.notifications.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,9 +98,20 @@ public class TripServiceImpl implements TripService {
             if(candidateOpt.isPresent()) {
                 AppUser candidate = candidateOpt.get();
                 candidate.getTrips().add(trip);
+                candidates.add(candidate);
                 appUserRepository.save(candidate);
             }
         }
+
+        String tripName = trip.getName();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NotificationService.getInstance().sendCreateTripNotification(appUserOpt.get(), candidates, tripName);
+            }
+        }).start();
+
         return trip.getId();
     }
 }

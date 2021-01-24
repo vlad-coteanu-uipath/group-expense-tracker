@@ -37,6 +37,7 @@
     "blueprints": [],
     "herokuAppName": "group-expense-tracker",
     "herokuDeployType": "git",
-    "herokuJavaVersion": "11"
+    "herokuJavaVersion": "11",
+    "lastLiquibaseTimestamp": 1611490543000
   }
 }

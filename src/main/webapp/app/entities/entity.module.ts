@@ -16,6 +16,10 @@ import { RouterModule } from '@angular/router';
         path: 'app-user',
         loadChildren: () => import('./app-user/app-user.module').then(m => m.GroupExpenseTrackerAppUserModule),
       },
+      {
+        path: 'fcm-token',
+        loadChildren: () => import('./fcm-token/fcm-token.module').then(m => m.GroupExpenseTrackerFCMTokenModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

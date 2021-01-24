@@ -1,5 +1,8 @@
 package org.fmi.unibuc;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import org.fmi.unibuc.config.ApplicationProperties;
 
 import io.github.jhipster.config.DefaultProfileUtil;
@@ -15,6 +18,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -62,6 +68,20 @@ public class GroupExpenseTrackerApp {
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);
+
+        try {
+            FileInputStream serviceAccount = new FileInputStream("src/main/resources/config/firebase/serviceAccountKey.json");
+
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .build();
+
+            FirebaseApp.initializeApp(options);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void logApplicationStartup(Environment env) {
