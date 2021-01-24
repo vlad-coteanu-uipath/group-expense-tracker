@@ -41,6 +41,9 @@ public class TripServiceImpl implements TripService {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public TripServiceImpl(TripRepository tripRepository, TripMapper tripMapper) {
         this.tripRepository = tripRepository;
         this.tripMapper = tripMapper;
@@ -106,12 +109,12 @@ public class TripServiceImpl implements TripService {
 
         String tripName = trip.getName();
         User createdByUser = appUserOpt.get().getUser();
-        String createdByDetails = createdByUser.getFirstName() + " " + createdByUser.getLastName() + createdByUser.getLogin();
+        String createdByDetails = createdByUser.getFirstName() + " " + createdByUser.getLastName() + " ( " + createdByUser.getLogin() + ")";
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                NotificationService.getInstance().sendCreateTripNotification(
+                notificationService.sendCreateTripNotification(
                     appUserOpt.get().getId(),
                     createdByDetails,
                     candidatesIds,
