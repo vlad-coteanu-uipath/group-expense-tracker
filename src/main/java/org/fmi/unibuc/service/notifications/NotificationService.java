@@ -6,12 +6,17 @@ import com.google.firebase.messaging.Message;
 import org.fmi.unibuc.domain.AppUser;
 import org.fmi.unibuc.domain.FCMToken;
 import org.fmi.unibuc.service.FCMTokenService;
+import org.fmi.unibuc.web.rest.AppUserResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 import java.util.Set;
 
 public class NotificationService {
+
+    private final Logger log = LoggerFactory.getLogger(NotificationService.class);
 
     private static NotificationService INSTANCE = new NotificationService();
 
@@ -20,19 +25,17 @@ public class NotificationService {
 
     private NotificationService() {}
 
-    public void sendCreateTripNotification(AppUser createdBy, Set<AppUser> recipients, String tripName) {
+    public void sendCreateTripNotification(Long createdById, String createdByDetails, Set<Long> recipientsIds, String tripName) {
+
+        log.info("Sending create trip notification");
+        log.info("Trip was created by " + createdByDetails + " and has name: " + tripName);
 
         String title = "You have been added to " + tripName;
-        String descriptionFormat = "%s %s (%s) has added you to a new trip called %s";
-        String description = String.format(
-            descriptionFormat,
-            createdBy.getUser().getFirstName(),
-            createdBy.getUser().getLastName(),
-            createdBy.getUser().getLogin(),
-            tripName);
+        String descriptionFormat = "%s has added you to a new trip called %s";
+        String description = String.format(descriptionFormat, createdByDetails, tripName);
 
-        for(AppUser recipient : recipients) {
-            Optional<FCMToken> fcmTokenOptional = fcmTokenService.findOneByAppUserId(recipient.getId());
+        for(Long recipientId : recipientsIds) {
+            Optional<FCMToken> fcmTokenOptional = fcmTokenService.findOneByAppUserId(recipientId);
             if(!fcmTokenOptional.isPresent()) {
                 continue;
             }

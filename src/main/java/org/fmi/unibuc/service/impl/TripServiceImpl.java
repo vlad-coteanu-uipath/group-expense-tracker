@@ -1,6 +1,7 @@
 package org.fmi.unibuc.service.impl;
 
 import org.fmi.unibuc.domain.AppUser;
+import org.fmi.unibuc.domain.User;
 import org.fmi.unibuc.repository.AppUserRepository;
 import org.fmi.unibuc.service.TripService;
 import org.fmi.unibuc.domain.Trip;
@@ -92,23 +93,29 @@ public class TripServiceImpl implements TripService {
         trip.setName(createTripDTO.getTitle());
         trip = tripRepository.save(trip);
 
-        Set<AppUser> candidates = new HashSet<>();
+        Set<Long> candidatesIds = new HashSet<>();
         for(int i = 0; i < createTripDTO.getParticipantsAppUserId().length; i++) {
             Optional<AppUser> candidateOpt = appUserRepository.findById(createTripDTO.getParticipantsAppUserId()[i]);
             if(candidateOpt.isPresent()) {
                 AppUser candidate = candidateOpt.get();
                 candidate.getTrips().add(trip);
-                candidates.add(candidate);
                 appUserRepository.save(candidate);
+                candidatesIds.add(candidate.getId());
             }
         }
 
         String tripName = trip.getName();
+        User createdByUser = appUserOpt.get().getUser();
+        String createdByDetails = createdByUser.getFirstName() + " " + createdByUser.getLastName() + createdByUser.getLogin();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                NotificationService.getInstance().sendCreateTripNotification(appUserOpt.get(), candidates, tripName);
+                NotificationService.getInstance().sendCreateTripNotification(
+                    appUserOpt.get().getId(),
+                    createdByDetails,
+                    candidatesIds,
+                    tripName);
             }
         }).start();
 
