@@ -66,4 +66,16 @@ public class GETCustomResource {
         return ResponseEntity.ok().body(tripList);
     }
 
+    /**
+     * {@code GET  /custom/trips/trip-details/{:tripId} gets trip extended details for trip ID
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of dtos in body.
+     */
+    @GetMapping("/custom/trips/trip-details/{tripId}")
+    public ResponseEntity<ExtendedTripDTO> getTripDetailsForTripId(@PathVariable Long tripId) {
+        log.debug("REST request to get trip extended details for tripId: {}", tripId);
+        ExtendedTripDTO extendedTripDTO = tripService.getTripWithCompleteDetails(tripId);
+        return ResponseEntity.ok().body(extendedTripDTO);
+    }
+
 }

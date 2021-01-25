@@ -1,6 +1,7 @@
 package org.fmi.unibuc.service;
 
 import org.fmi.unibuc.service.dto.CreateTripDTO;
+import org.fmi.unibuc.service.dto.ExtendedTripDTO;
 import org.fmi.unibuc.service.dto.TripDTO;
 
 import org.springframework.data.domain.Page;
@@ -47,4 +48,6 @@ public interface TripService {
     void delete(Long id);
 
     Long createTrip(CreateTripDTO createTripDTO);
+
+    ExtendedTripDTO getTripWithCompleteDetails(long tripId);
 }

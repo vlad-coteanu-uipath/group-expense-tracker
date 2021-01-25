@@ -1,13 +1,18 @@
 package org.fmi.unibuc.service.impl;
 
 import org.fmi.unibuc.domain.AppUser;
+import org.fmi.unibuc.domain.Expense;
 import org.fmi.unibuc.domain.User;
 import org.fmi.unibuc.repository.AppUserRepository;
+import org.fmi.unibuc.service.AppUserService;
 import org.fmi.unibuc.service.TripService;
 import org.fmi.unibuc.domain.Trip;
 import org.fmi.unibuc.repository.TripRepository;
 import org.fmi.unibuc.service.dto.CreateTripDTO;
+import org.fmi.unibuc.service.dto.ExtendedTripDTO;
+import org.fmi.unibuc.service.dto.ExtendedUserDTO;
 import org.fmi.unibuc.service.dto.TripDTO;
+import org.fmi.unibuc.service.mapper.ExpenseMapper;
 import org.fmi.unibuc.service.mapper.TripMapper;
 import org.fmi.unibuc.service.notifications.NotificationService;
 import org.slf4j.Logger;
@@ -24,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Trip}.
@@ -43,6 +49,9 @@ public class TripServiceImpl implements TripService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private ExpenseMapper expenseMapper;
 
     public TripServiceImpl(TripRepository tripRepository, TripMapper tripMapper) {
         this.tripRepository = tripRepository;
@@ -123,5 +132,49 @@ public class TripServiceImpl implements TripService {
         }).start();
 
         return trip.getId();
+    }
+
+    public ExtendedTripDTO getTripWithCompleteDetails(long tripId) {
+
+        Optional<TripDTO> tripDTOOptional = this.findOne(tripId);
+        if(!tripDTOOptional.isPresent()) {
+            return null;
+        }
+
+        ExtendedTripDTO extendedTripDTO = ExtendedTripDTO.fromTripDTO(tripDTOOptional.get());
+
+        // 1. Add created by as extended app user
+        Optional<AppUser> appUserOptional = appUserRepository.findById(extendedTripDTO.getCreatedById());
+        if(!appUserOptional.isPresent()) {
+            return null;
+        }
+        AppUser createdByAppUser = appUserOptional.get();
+
+        extendedTripDTO.setExtendedCreatedBy(new ExtendedUserDTO(
+            createdByAppUser.getUser().getId(),
+            createdByAppUser.getUser().getLogin(),
+            createdByAppUser.getUser().getFirstName(),
+            createdByAppUser.getUser().getLastName(),
+            createdByAppUser.getId()));
+
+        // 2. Add list of participants
+        Trip trip = tripRepository.getOne(tripId);
+        Set<ExtendedUserDTO> tripParticipants = new HashSet<>();
+        for (AppUser participant : trip.getParticipants()) {
+            ExtendedUserDTO extendedUserDTO = new ExtendedUserDTO(
+                participant.getUser().getId(),
+                participant.getUser().getLogin(),
+                participant.getUser().getFirstName(),
+                participant.getUser().getLastName(),
+                participant.getId());
+            tripParticipants.add(extendedUserDTO);
+        }
+        extendedTripDTO.setTripParticipants(tripParticipants);
+
+        // 3. Add list of expenses
+        Set<Expense> expenses = trip.getExpenses();
+        extendedTripDTO.setTripExpenses(expenses.stream().map(expenseMapper::toDto).collect(Collectors.toSet()));
+
+        return extendedTripDTO;
     }
 }
