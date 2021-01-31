@@ -58,7 +58,7 @@ public class NotificationService {
         log.info("Sending create expense notification");
         log.info("Expense was created by " + createdByDetails + " with description: " + expenseDesc);
 
-        String title = tripName + "You have been added to a new expense named " + expenseDesc + ". You owe " + amountPerUser + ".";
+        String title = "You have been added to a new expense named " + expenseDesc + ".";
         String descriptionFormat = "%s has added you to a new expense inside trip %s, named %s. The amount of money you owe is %s";
         String description = String.format(descriptionFormat, createdByDetails, tripName, expenseDesc, amountPerUser);
 

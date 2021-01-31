@@ -9,7 +9,7 @@ public class CreateExpenseDTO {
     private Long createdBy;
     private Long tripId;
     private double amount;
-    private ExpenseType expenseType;
+        private ExpenseType expenseType;
 
     public CreateExpenseDTO() {
     }

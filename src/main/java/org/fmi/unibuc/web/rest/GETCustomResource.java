@@ -88,7 +88,7 @@ public class GETCustomResource {
     public ResponseEntity<Object> updateTripParticipants(@RequestBody long[] newTripParticipantsId, @PathVariable Long tripId) {
         log.debug("REST request to update trip members : {}", tripId);
         tripService.updateTripParticipants(tripId, newTripParticipantsId);
-        return ResponseEntity.ok().body(JSONObject.wrap(true));
+        return ResponseEntity.ok().body(JSONObject.wrap(new boolean[]{true}));
     }
 
     /**
