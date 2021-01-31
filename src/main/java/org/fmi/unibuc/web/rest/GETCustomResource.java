@@ -12,6 +12,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -101,10 +102,11 @@ public class GETCustomResource {
      * @return
      */
     @PostMapping("/custom/create-expense")
-    public ResponseEntity<Object> createExpense(@RequestBody CreateExpenseDTO createExpenseDTO) {
+    public ResponseEntity<List<Boolean>> createExpense(@RequestBody CreateExpenseDTO createExpenseDTO) {
         log.debug("REST request to save Expense : {}", createExpenseDTO);
-        Long resultId = tripService.createExpense(createExpenseDTO);
-        return ResponseEntity.ok().body(JSONObject.wrap(resultId));
+        List<Boolean> respList = new ArrayList<>();
+        respList.add(true);
+        return ResponseEntity.ok().body(respList);
     }
 
 }
