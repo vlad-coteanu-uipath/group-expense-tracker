@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,10 +86,12 @@ public class GETCustomResource {
      * @return
      */
     @PutMapping("/custom/update-trip-participants/{tripId}")
-    public ResponseEntity<Object> updateTripParticipants(@RequestBody long[] newTripParticipantsId, @PathVariable Long tripId) {
+    public ResponseEntity<JSONArray> updateTripParticipants(@RequestBody long[] newTripParticipantsId, @PathVariable Long tripId) {
         log.debug("REST request to update trip members : {}", tripId);
         tripService.updateTripParticipants(tripId, newTripParticipantsId);
-        return ResponseEntity.ok().body(JSONObject.wrap(new boolean[]{true}));
+        JSONArray resp = new JSONArray();
+        resp.put(JSONObject.wrap(true));
+        return ResponseEntity.ok().body(resp);
     }
 
     /**
