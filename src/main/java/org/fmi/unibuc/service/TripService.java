@@ -1,5 +1,6 @@
 package org.fmi.unibuc.service;
 
+import org.fmi.unibuc.service.dto.CreateExpenseDTO;
 import org.fmi.unibuc.service.dto.CreateTripDTO;
 import org.fmi.unibuc.service.dto.ExtendedTripDTO;
 import org.fmi.unibuc.service.dto.TripDTO;
@@ -49,5 +50,9 @@ public interface TripService {
 
     Long createTrip(CreateTripDTO createTripDTO);
 
+    Long createExpense(CreateExpenseDTO createExpenseDTO);
+
     ExtendedTripDTO getTripWithCompleteDetails(long tripId);
+
+    void updateTripParticipants(long tripId, long[] tripParticipantsAppUserId);
 }

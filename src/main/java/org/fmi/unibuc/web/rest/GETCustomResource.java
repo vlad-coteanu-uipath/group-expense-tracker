@@ -78,4 +78,30 @@ public class GETCustomResource {
         return ResponseEntity.ok().body(extendedTripDTO);
     }
 
+    /**
+     * {@code PUT  /custom/update-trip-participants/{tripId} : updates trip participants
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}
+     * @return
+     */
+    @PutMapping("/custom/update-trip-participants/{tripId}")
+    public ResponseEntity<Object> updateTripParticipants(@RequestBody long[] newTripParticipantsId, @PathVariable Long tripId) {
+        log.debug("REST request to update trip members : {}", tripId);
+        tripService.updateTripParticipants(tripId, newTripParticipantsId);
+        return ResponseEntity.ok().body(JSONObject.wrap(true));
+    }
+
+    /**
+     * {@code POST  /custom/create-expense : creates an expense based on createExpenseDTO
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the id of the newly created trip
+     * @return
+     */
+    @PostMapping("/custom/create-expense")
+    public ResponseEntity<Object> createExpense(@RequestBody CreateExpenseDTO createExpenseDTO) {
+        log.debug("REST request to save Expense : {}", createExpenseDTO);
+        Long resultId = tripService.createExpense(createExpenseDTO);
+        return ResponseEntity.ok().body(JSONObject.wrap(resultId));
+    }
+
 }
