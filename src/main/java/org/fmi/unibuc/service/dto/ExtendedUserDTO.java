@@ -1,5 +1,7 @@
 package org.fmi.unibuc.service.dto;
 
+import java.math.BigDecimal;
+
 public class ExtendedUserDTO {
 
     private Long id;
@@ -8,6 +10,7 @@ public class ExtendedUserDTO {
     private String lastName;
 
     private Long appUserId;
+    private double balanceForTrip;
 
     public ExtendedUserDTO() {
     }
@@ -18,6 +21,14 @@ public class ExtendedUserDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.appUserId = appUserId;
+    }
+
+    public double getBalanceForTrip() {
+        return balanceForTrip;
+    }
+
+    public void setBalanceForTrip(double balanceForTrip) {
+        this.balanceForTrip = balanceForTrip;
     }
 
     public Long getId() {

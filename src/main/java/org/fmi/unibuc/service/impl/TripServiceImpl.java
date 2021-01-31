@@ -223,6 +223,7 @@ public class TripServiceImpl implements TripService {
                 participant.getUser().getFirstName(),
                 participant.getUser().getLastName(),
                 participant.getId());
+            extendedUserDTO.setBalanceForTrip(this.getBalanceForUser(tripId, participant.getId()));
             tripParticipants.add(extendedUserDTO);
         }
         extendedTripDTO.setTripParticipants(tripParticipants);
@@ -293,5 +294,30 @@ public class TripServiceImpl implements TripService {
             }
         }).start();
 
+    }
+
+    @Override
+    public double getBalanceForUser(long tripId, long appUserId) {
+        // Step 1, get trip group expenses
+        Optional<Trip> tripOptional = tripRepository.findById(tripId);
+        if(!tripOptional.isPresent()) {
+            return 0;
+        }
+        Trip trip = tripOptional.get();
+        Set<Expense> tripGroupExpenses = trip.getExpenses().stream().filter(e -> e.getType() == ExpenseType.GROUP).collect(Collectors.toSet());
+
+        // Step 2 compute balance.
+        double balance = 0;
+        for(Expense expense : tripGroupExpenses) {
+            if(expense.getCreatedBy().getId() == appUserId) {
+                balance += expense.getAmount().doubleValue();
+            }
+            Set<Long> participantsIds = expense.getParticipants().stream().map(AppUser::getId).collect(Collectors.toSet());
+            if(participantsIds.contains(appUserId)) {
+                balance -= expense.getAmount().doubleValue() / participantsIds.size();
+            }
+        }
+
+        return balance;
     }
 }

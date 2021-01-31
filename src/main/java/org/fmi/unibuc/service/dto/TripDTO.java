@@ -15,8 +15,18 @@ public class TripDTO implements Serializable {
     private String description;
 
     private LocalDate createdDate;
-    
+
     private Long createdById;
+
+    private double balance;
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 
     public Long getId() {
         return id;

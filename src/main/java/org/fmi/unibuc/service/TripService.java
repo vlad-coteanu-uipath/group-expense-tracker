@@ -55,4 +55,6 @@ public interface TripService {
     ExtendedTripDTO getTripWithCompleteDetails(long tripId);
 
     void updateTripParticipants(long tripId, long[] tripParticipantsAppUserId);
+
+    double getBalanceForUser(long tripId, long appUserId);
 }

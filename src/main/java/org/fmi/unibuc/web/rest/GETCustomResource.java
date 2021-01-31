@@ -65,6 +65,9 @@ public class GETCustomResource {
     public ResponseEntity<List<TripDTO>> getAllTripsForAppUserId(@PathVariable Long appUserId) {
         log.debug("REST request to get candidates for appUserId: {}", appUserId);
         List<TripDTO> tripList = appUserService.findTripsForUser(appUserId);
+        for(TripDTO tripDTO : tripList) {
+            tripDTO.setBalance(tripService.getBalanceForUser(tripDTO.getId(), appUserId));
+        }
         return ResponseEntity.ok().body(tripList);
     }
 
@@ -107,5 +110,7 @@ public class GETCustomResource {
         Long resultId = tripService.createExpense(createExpenseDTO);
         return ResponseEntity.ok().body(JSONObject.wrap(resultId));
     }
+
+
 
 }
