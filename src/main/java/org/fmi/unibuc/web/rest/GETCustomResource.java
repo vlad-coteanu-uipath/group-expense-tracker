@@ -87,12 +87,12 @@ public class GETCustomResource {
      * @return
      */
     @PutMapping("/custom/update-trip-participants/{tripId}")
-    public ResponseEntity<JSONArray> updateTripParticipants(@RequestBody long[] newTripParticipantsId, @PathVariable Long tripId) {
+    public ResponseEntity<List<Boolean>> updateTripParticipants(@RequestBody long[] newTripParticipantsId, @PathVariable Long tripId) {
         log.debug("REST request to update trip members : {}", tripId);
         tripService.updateTripParticipants(tripId, newTripParticipantsId);
-        JSONArray resp = new JSONArray();
-        resp.put(JSONObject.wrap(true));
-        return ResponseEntity.ok().body(resp);
+        List<Boolean> respList = new ArrayList<>();
+        respList.add(true);
+        return ResponseEntity.ok().body(respList);
     }
 
     /**
@@ -102,11 +102,10 @@ public class GETCustomResource {
      * @return
      */
     @PostMapping("/custom/create-expense")
-    public ResponseEntity<List<Boolean>> createExpense(@RequestBody CreateExpenseDTO createExpenseDTO) {
+    public ResponseEntity<Object> createExpense(@RequestBody CreateExpenseDTO createExpenseDTO) {
         log.debug("REST request to save Expense : {}", createExpenseDTO);
-        List<Boolean> respList = new ArrayList<>();
-        respList.add(true);
-        return ResponseEntity.ok().body(respList);
+        Long resultId = tripService.createExpense(createExpenseDTO);
+        return ResponseEntity.ok().body(JSONObject.wrap(resultId));
     }
 
 }
