@@ -1,6 +1,9 @@
 package org.fmi.unibuc.web.rest;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.checkerframework.checker.units.qual.A;
 import org.fmi.unibuc.service.AppUserService;
+import org.fmi.unibuc.service.ExpenseService;
 import org.fmi.unibuc.service.TripService;
 import org.fmi.unibuc.service.dto.*;
 import org.slf4j.Logger;
@@ -29,6 +32,9 @@ public class GETCustomResource {
 
     @Autowired
     private TripService tripService;
+
+    @Autowired
+    private ExpenseService expenseService;
 
     /**
      * {@code GET  /custom/candidates/{}:appUserId} : get all the users to a trip in descending order of the
@@ -107,10 +113,33 @@ public class GETCustomResource {
     @PostMapping("/custom/create-expense")
     public ResponseEntity<Object> createExpense(@RequestBody CreateExpenseDTO createExpenseDTO) {
         log.debug("REST request to save Expense : {}", createExpenseDTO);
-        Long resultId = tripService.createExpense(createExpenseDTO);
+        Long resultId = expenseService.createExpense(createExpenseDTO);
         return ResponseEntity.ok().body(JSONObject.wrap(resultId));
     }
 
+    /**
+     * {@code GET  /custom/expense/expense-details/{:expenseId} gets expense extended details for expense ID
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of dtos in body.
+     */
+    @GetMapping("/custom/expense/expense-details/{expenseId}")
+    public ResponseEntity<ExtendedExpenseDTO> getExpenseDetailsForExpenseId(@PathVariable Long expenseId) {
+        log.debug("REST request to get expense extended details for expense: {}", expenseId);
+        ExtendedExpenseDTO extendedExpenseDTO = expenseService.getExpenseWithCompleteDetails(expenseId);
+        return ResponseEntity.ok().body(extendedExpenseDTO);
+    }
 
+    /**
+     * {@code PUT  /custom/update-expense/{:expenseId} : updates expense
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}
+     * @return
+     */
+    @PutMapping("/custom/update-expense/{expenseId}")
+    public ResponseEntity<Object> updateTripParticipants(@RequestBody CreateExpenseDTO createExpenseDTO, @PathVariable Long expenseId) {
+        log.debug("REST request to update expense : {}", expenseId);
+        boolean result = expenseService.updateExtendedExpense(createExpenseDTO);
+        return  ResponseEntity.ok().body(JSONObject.wrap(result));
+    }
 
 }

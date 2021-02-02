@@ -1,7 +1,9 @@
 package org.fmi.unibuc.service;
 
+import org.fmi.unibuc.service.dto.CreateExpenseDTO;
 import org.fmi.unibuc.service.dto.ExpenseDTO;
 
+import org.fmi.unibuc.service.dto.ExtendedExpenseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -43,4 +45,10 @@ public interface ExpenseService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    ExtendedExpenseDTO getExpenseWithCompleteDetails(Long expenseId);
+
+    boolean updateExtendedExpense(CreateExpenseDTO createExpenseDTO);
+
+    Long createExpense(CreateExpenseDTO createExpenseDTO);
 }

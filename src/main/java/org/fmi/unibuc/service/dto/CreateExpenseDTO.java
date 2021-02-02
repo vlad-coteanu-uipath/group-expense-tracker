@@ -4,12 +4,13 @@ import org.fmi.unibuc.domain.enumeration.ExpenseType;
 
 public class CreateExpenseDTO {
 
+    private long id;
     private String description;
     private Long[] participantsAppUserId;
     private Long createdBy;
     private Long tripId;
     private double amount;
-        private ExpenseType expenseType;
+    private ExpenseType expenseType;
 
     public CreateExpenseDTO() {
     }
@@ -21,6 +22,14 @@ public class CreateExpenseDTO {
         this.tripId = tripId;
         this.amount = amount;
         this.expenseType = expenseType;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getDescription() {

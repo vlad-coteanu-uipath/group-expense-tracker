@@ -50,8 +50,6 @@ public interface TripService {
 
     Long createTrip(CreateTripDTO createTripDTO);
 
-    Long createExpense(CreateExpenseDTO createExpenseDTO);
-
     ExtendedTripDTO getTripWithCompleteDetails(long tripId);
 
     void updateTripParticipants(long tripId, long[] tripParticipantsAppUserId);

@@ -53,6 +53,18 @@ public class NotificationService {
         sendMessage(recipientsIds, title, description);
     }
 
+    public void sendUpdateExpenseNotification(String createdByDetails, Set<Long> recipientsIds, String tripName, String expenseDesc, String amountPerUser) {
+
+        log.info("Sending update expense notification");
+        log.info("Expense created by " + createdByDetails + " with description: " + expenseDesc);
+
+        String title = "Expense named " + expenseDesc + " has been updated.";
+        String descriptionFormat = "The expense inside trip %s, named %s has been updated. The amount of money you owe is %s";
+        String description = String.format(descriptionFormat, createdByDetails, tripName, expenseDesc, amountPerUser);
+
+        sendMessage(recipientsIds, title, description);
+    }
+
     public void sendCreateExpenseNotification(Long createdById, String createdByDetails, Set<Long> recipientsIds, String tripName, String expenseDesc, String amountPerUser) {
 
         log.info("Sending create expense notification");
